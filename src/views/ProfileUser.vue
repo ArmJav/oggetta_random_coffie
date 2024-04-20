@@ -1,32 +1,84 @@
 <script setup>
 
+import { ref, reactive } from 'vue';
+
+const image_path = ref('/src/components/icons/oggetto-logo.png')
+const participant = reactive({
+    fio: "Армен Джавадян Шагенович",
+    birthday: "12.11.1999",
+    course: 4,
+    university_name: "ДГТУ",
+
+}) 
+
+const files_path = ref("")
+
+const disableCheck = ref(true)
+const changeDisable = () => {
+    const elModal = document.querySelectorAll('.disablinput');
+    elModal.forEach((el) => {
+        if (disableCheck.value === true) {
+        el.classList.add('enableinput')
+        }
+        else {
+        el.classList.remove('enableinput');
+        }
+    });
+    disableCheck.value = !disableCheck.value
+}
 </script>
 
 <template>
     <Header/>
 
     <div class="home">
-    <div class="container_photo">
-      <img src="../icons/ava.png" alt="logo">
-      <but/>
-    </div>
-    <div class="prof">
-        <a class="info">Фамилия:</a>
-        <a class="info">Имя:</a>
-        <a class="info">Отчество:</a>
-        <a class="info">Дата рождения:</a>
-        <a class="info">Email:</a>
-        <a class="info">Телелфон:</a>
-    </div>
+        <div class="container_photo">
+            <div class = "circle-avatar">
+                <img :src="image_path" alt="logo">
+            </div>
+            <UFile
+                type="file"
+                placeholder=""
+                v-model="files_path"
+            />
+        </div>
+        <div class="prof">
+            <div class="info">
+                <a>Фамилия:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Имя:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Отчество:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Почта:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Почта:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Почта:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            
+        </div>
+
     <div class="meating">
-        <a class="activity">Сфера деятельности</a>
-        <div class="flex">
+        <div class="activity">
+            <a >Сфера деятельности</a>
+        </div>
           <div class="inform">
             <a class="text">Немного о вас</a>
           </div>
           <div class="meat">
-            <a class="text">Мероприятия</a>
-          </div>
+            <a class="text">Последний комментарий</a>
         </div>
         </div>
     </div>
@@ -62,44 +114,71 @@
   position: absolute;
   width: 90vw;
   height: 90vw;
-  left: -69%;
-  top: 60vh;
+  left: -50%;
+  top: 10vw;
   /* background: var(--vt-v-yellow); */
   filter: blur(5vw);
+  z-index: -1;
 }
 
 .home {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  align-items: center;
-  margin-top: 5vw;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  max-width: 1280px;
+  min-height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  grid-column-gap: 2cap;
+  margin-top: 1vh;
 
   }
 
 .container_photo {
   display: grid;
+  grid-template-rows: 2fr 1fr;
   width: 30vw;
   height: 10vw;
-  align-items: end;
+  align-items: center;
+  justify-items: center;
+
+  .circle-avatar {
+    width: 15vw; /* Размер круга */
+    height: 15vw;
+    border-radius: 50%; /* Делаем круглым */
+    border: 2px solid rgb(255, 255, 255);
+    overflow: hidden; /* Скрываем часть изображения, которая выходит за пределы круга */
+
+    img {
+        width:90%; /* Ширина изображения равна ширине обёртки */
+        height: auto; /* Высота изображения автоматически подстраивается */
+    }
+  }
+
 }
+.disablinput{
+        font-size: 0.8em;
+        border: none;
+        opacity: 0.8;
+        background: #0F1016;
+        color: var(--color-text);
+    }
+    .enableinput {
+        border: 1px solid var(--cl-purple);
+    }
 
 .prof {
   width: 30vw;
   display: grid;
   height: 26vw;
-  margin: 5vw;
 }
 
 .info {
-  margin-top: 1vw;
-  align-items: center;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
   color: rgb(255, 221, 0);
-  font-size: 0.9vw;
-  font-weight: 21vw;
-  line-height: 1vw;
+  font-size: 0.6em;
+  line-height: 2vw;
   letter-spacing: 0.1vw;
   text-align: left;
   border-bottom-style: solid;
@@ -109,21 +188,21 @@
 .meating {
   width: 30vw;
   display: grid;
-  height: 26vw;
+  grid-template-rows: 1fr 5fr 5fr;
+  row-gap: 1vw;
 }
 
 .activity {
-  margin-top: 1vw;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
   color: rgb(255, 221, 0);
-  font-size: 0.9vw;
-  font-weight: 21vw;
-  line-height: 1vw;
+  font-size: 0.6em;
+  line-height: 2vw;
   letter-spacing: 0.1vw;
   text-align: left;
   border-bottom-style: solid;
   border-bottom-color: rgb(255, 255, 255);
-  height: 3.305vw;
+  width: 100%;
 }
 
 .inform {
@@ -132,8 +211,7 @@
   align-items: center;
   color: rgb(255, 221, 0);
   height: 20vh;
-  font-size: 0.9vw;
-  font-weight: 21vw;
+  font-size: 0.6em;
   line-height: 1vw;
   letter-spacing: 0.1vw;
   text-align: left;
@@ -141,6 +219,7 @@
   border: 2px solid rgb(255, 255, 255);
   border-radius: 1.6vw;
   background: rgb(0, 0, 0);
+  min-height: 15vw;
 }
 
 .text {
@@ -152,13 +231,10 @@
 .meat {
   margin-top: 1vw;
   position: relative;
-  display: flex;
   align-items: center;
   color: rgb(255, 221, 0);
-  font-family: Montserrat;
-  height: 20vh;
-  font-size: 0.9vw;
-  font-weight: 21vw;
+  min-height: 15vh;
+  font-size: 0.6em;
   line-height: 1vw;
   letter-spacing: 0.1vw;
   text-align: left;
@@ -168,9 +244,6 @@
   background: rgb(0, 0, 0);
 }
 
-.flex {
-  display: grid;
-}
 
 .button {
   position: absolute;
@@ -187,7 +260,7 @@
 .button_conteiner {
     display: flex;
     justify-content: space-around;
-    position: absolute;
+    position: fixed;
     bottom: 5px;
     left: 0;
     right: 0;

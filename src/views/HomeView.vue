@@ -1,45 +1,95 @@
 <script setup>
 
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
 
-const dictionary = reactive({})
+const image_path = ref('/src/components/icons/oggetto-logo.png')
+const participant = reactive({
+    fio: "Армен Джавадян Шагенович",
+    birthday: "12.11.1999",
+    course: 4,
+    university_name: "ДГТУ",
+
+}) 
+
+const files_path = ref("")
+
+const disableCheck = ref(true)
+const changeDisable = () => {
+    const elModal = document.querySelectorAll('.disablinput');
+    elModal.forEach((el) => {
+        if (disableCheck.value === true) {
+        el.classList.add('enableinput')
+        }
+        else {
+        el.classList.remove('enableinput');
+        }
+    });
+    disableCheck.value = !disableCheck.value
+}
 </script>
 
 <template>
-  <header>
     <Header/>
-  </header>
-  <div class="home">
-    <div class="container_photo">
-      <img src="../icons/ava.png" alt="logo">
-      <but/>
-    </div>
-    <div class="prof">
-        <a class="info">Фамилия:</a>
-        <a class="info">Имя:</a>
-        <a class="info">Отчество:</a>
-        <a class="info">Дата рождения:</a>
-        <a class="info">Email:</a>
-        <a class="info">Телелфон:</a>
-    </div>
+
+    <div class="home">
+        <div class="container_photo">
+            <div class = "circle-avatar">
+                <img :src="image_path" alt="logo">
+            </div>
+            <UFile
+                type="file"
+                placeholder=""
+                v-model="files_path"
+            />
+        </div>
+        <div class="prof">
+            <div class="info">
+                <a>Фамилия:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Имя:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Отчество:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Почта:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Почта:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            <div class="info">
+                <a>Сфера деятельности:</a>
+                <input  class="disablinput" :disabled="disableCheck" v-model="participant.fio">
+            </div>
+            
+        </div>
+
     <div class="meating">
-        <a class="activity">Сфера деятельности</a>
-        <div class="flex">
           <div class="inform">
-            <a class="text">Немного о вас</a>
+            <div class="text">Немного о вас</div>
+            <CardForYou/>
           </div>
           <div class="meat">
-            <a class="text">Мероприятия</a>
-          </div>
+            <a class="text">Последний комментарий</a>
+        </div>
         </div>
     </div>
-  </div>
 
-  <img src="../components/icons/elips.svg" alt="blick" class = 'left_blic' >
-  <img src="../components/icons/elips.svg" alt="blick" class = 'right_blic' >
+    <img src="../components/icons/elips.svg" alt="blick" class = 'left_blic' >
+    <img src="../components/icons/elips.svg" alt="blick" class = 'right_blic' >
+    <div class = "button_conteiner">
+    </div>
+    
+
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 
 .right_blic {
   position: absolute;
@@ -56,45 +106,76 @@ const dictionary = reactive({})
   position: absolute;
   width: 90vw;
   height: 90vw;
-  left: -69%;
-  top: 60vh;
+  left: -50%;
+  top: 10vw;
   /* background: var(--vt-v-yellow); */
   filter: blur(5vw);
+  z-index: -1;
 }
 
 .home {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  align-items: center;
-  margin-top: 5vw;
-  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  max-width: 1280px;
+  min-height: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  grid-column-gap: 2cap;
+  margin-top: 1vh;
 
   }
 
+.text {
+  margin: 1vw;
+}
+
 .container_photo {
   display: grid;
+  grid-template-rows: 2fr 1fr;
   width: 30vw;
   height: 10vw;
-  align-items: end;
+  align-items: center;
+  justify-items: center;
+  row-gap: 2vw;;
+
+  .circle-avatar {
+    width: 15vw; /* Размер круга */
+    height: 15vw;
+    border-radius: 50%; /* Делаем круглым */
+    border: 2px solid rgb(255, 255, 255);
+    overflow: hidden; /* Скрываем часть изображения, которая выходит за пределы круга */
+
+    img {
+        width:90%; /* Ширина изображения равна ширине обёртки */
+        height: auto; /* Высота изображения автоматически подстраивается */
+    }
+  }
+
 }
+.disablinput{
+        font-size: 0.8em;
+        border: none;
+        opacity: 0.8;
+        background: #0F1016;
+        color: var(--color-text);
+    }
+    .enableinput {
+        border: 1px solid var(--cl-purple);
+    }
 
 .prof {
   width: 30vw;
   display: grid;
   height: 26vw;
-  margin: 5vw;
 }
 
 .info {
-  margin-top: 1vw;
-  align-items: center;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
   color: rgb(255, 221, 0);
-  font-family: Montserrat;
-  font-size: 0.9vw;
-  font-weight: 21vw;
-  line-height: 1vw;
+  font-size: 0.6em;
+  line-height: 2vw;
   letter-spacing: 0.1vw;
   text-align: left;
   border-bottom-style: solid;
@@ -104,33 +185,32 @@ const dictionary = reactive({})
 .meating {
   width: 30vw;
   display: grid;
-  height: 26vw;
+  grid-template-rows: 1fr 1fr;
+  row-gap: 1vw;
 }
 
 .activity {
-  margin-top: 1vw;
+  display: grid;
   align-items: center;
   color: rgb(255, 221, 0);
-  font-family: Montserrat;
-  font-size: 0.9vw;
-  font-weight: 21vw;
-  line-height: 1vw;
+  font-size: 0.6em;
+  line-height: 2vw;
   letter-spacing: 0.1vw;
   text-align: left;
   border-bottom-style: solid;
   border-bottom-color: rgb(255, 255, 255);
-  height: 3.305vw;
+  width: 100%;
 }
 
 .inform {
   margin-bottom: 1vw;
+  display: flex;
   position: relative;
-  align-items: center;
+
+  flex-direction: column;
   color: rgb(255, 221, 0);
   height: 20vh;
-  font-family: Montserrat;
-  font-size: 0.9vw;
-  font-weight: 21vw;
+  font-size: 0.6em;
   line-height: 1vw;
   letter-spacing: 0.1vw;
   text-align: left;
@@ -138,24 +218,18 @@ const dictionary = reactive({})
   border: 2px solid rgb(255, 255, 255);
   border-radius: 1.6vw;
   background: rgb(0, 0, 0);
+  min-height: 15vw;
 }
 
-.text {
-  position: absolute; 
-  top: 0.6vw; 
-  left: 0.8vw;
-}
+
 
 .meat {
   margin-top: 1vw;
   position: relative;
-  display: flex;
   align-items: center;
   color: rgb(255, 221, 0);
-  font-family: Montserrat;
-  height: 20vh;
-  font-size: 0.9vw;
-  font-weight: 21vw;
+  min-height: 15vh;
+  font-size: 0.6em;
   line-height: 1vw;
   letter-spacing: 0.1vw;
   text-align: left;
@@ -165,9 +239,6 @@ const dictionary = reactive({})
   background: rgb(0, 0, 0);
 }
 
-.flex {
-  display: grid;
-}
 
 .button {
   position: absolute;
@@ -179,6 +250,31 @@ const dictionary = reactive({})
   border: 2px solid rgb(255, 255, 255);
   border-radius: 25px;
   background: rgb(0, 0, 0);
+}
+
+.button_conteiner {
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    right: 0;
+}
+
+.button_yellow, .button_stat{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 14.5vw;
+    height: 4.4vw;
+    background: var(--vt-v-yellow);
+    border: 2px solid var(--color-background);
+    border-radius: 1em;
+    box-sizing: border-box;
+    }
+.button_stat {
+    background: var(--color-stepian);
+    
 }
 
 </style>
