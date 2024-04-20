@@ -4,12 +4,12 @@ import { ref } from 'vue';
 
 const items = ref([
         
-        { image: '/src/components/icons/elips.svg', fio: 'Auaifds Bdfd asdf', birthday: '22.04.2021', status: 'Заблокирован' },
-        { image: '/src/components/icons/elips.svg', fio: 'Kuaifds Bdfd asdf', birthday: '24.04.2021', status: 'active' },
-        { image: '/src/components/icons/elips.svg', fio: 'Iuaifds Bdfd asdf', birthday: '28.04.2021', status: 'active' },        
+        { id:1, image: '/src/components/icons/oggetto-logo.png', fio: 'Auaifds Bdfd asdf', birthday: '22.04.2021', status: 'Заблокирован' },
+        { id:2, image: '/src/components/icons/elips.svg', fio: 'Kuaifds Bdfd asdf', birthday: '24.04.2021', status: 'active' },
+        { id:3, image: '/src/components/icons/elips.svg', fio: 'Iuaifds Bdfd asdf', birthday: '28.04.2021', status: 'active' },        
     ])
 const stat_view = () => {
-    console.log('П')
+    $router.push('/statistics')
     }
 </script>
 
@@ -28,7 +28,7 @@ const stat_view = () => {
       :birthday = "item.birthday"
       :status = "item.status"
       class="cardus"
-      @click="stat_view"
+      @click="$router.push(`/profileuser/${item.id}`)"
     ></CardUser>
   
 
@@ -51,6 +51,7 @@ const stat_view = () => {
     padding: 5px;
     display: grid;
     grid-template-columns: 15fr 1fr 1fr;
+    grid-template-rows: 1fr;
     align-content: center;
     align-items: center;
     margin-left: auto;
