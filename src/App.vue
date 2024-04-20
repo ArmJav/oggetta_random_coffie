@@ -18,8 +18,8 @@ const handleLoginError = () => {
 </script>
 
 <template>
-
-  <!-- <GoogleSignInButton
+<!-- 
+  <GoogleSignInButton
       @success="handleLoginSuccess"
       @error="handleLoginError"
     ></GoogleSignInButton> -->

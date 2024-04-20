@@ -1,7 +1,9 @@
 import Header from './Header.vue'
+import CardUser from './CardUser.vue'
 
 const components = [
     {name: 'Header', component: Header},
+    {name: 'CardUser', component: CardUser},
 ]
 
 
